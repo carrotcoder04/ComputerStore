@@ -1,0 +1,124 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BF5E5C27-4A49-4BCC-8D2D-DEDB9FCB52A5}|ComputerStore\\ComputerStore.csproj|c:\\users\\asus\\desktop\\web\\computerstore\\computerstore\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BF5E5C27-4A49-4BCC-8D2D-DEDB9FCB52A5}|ComputerStore\\ComputerStore.csproj|solutionrelative:computerstore\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BF5E5C27-4A49-4BCC-8D2D-DEDB9FCB52A5}|ComputerStore\\ComputerStore.csproj|c:\\users\\asus\\desktop\\web\\computerstore\\computerstore\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BF5E5C27-4A49-4BCC-8D2D-DEDB9FCB52A5}|ComputerStore\\ComputerStore.csproj|solutionrelative:computerstore\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BF5E5C27-4A49-4BCC-8D2D-DEDB9FCB52A5}|ComputerStore\\ComputerStore.csproj|c:\\users\\asus\\desktop\\web\\computerstore\\computerstore\\computerstore.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{BF5E5C27-4A49-4BCC-8D2D-DEDB9FCB52A5}|ComputerStore\\ComputerStore.csproj|solutionrelative:computerstore\\computerstore.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BF5E5C27-4A49-4BCC-8D2D-DEDB9FCB52A5}|ComputerStore\\ComputerStore.csproj|c:\\users\\asus\\desktop\\web\\computerstore\\computerstore\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BF5E5C27-4A49-4BCC-8D2D-DEDB9FCB52A5}|ComputerStore\\ComputerStore.csproj|solutionrelative:computerstore\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 1118,
+          "SelectedChildIndex": 10,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{6324226f-61b6-4f28-92ee-18d4b5fe1e48}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{dcc4ea97-1c0c-482b-b205-e541c0df9728}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "ComputerStore\\Models\\Product.cs",
+              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\Models\\Product.cs",
+              "RelativeToolTip": "ComputerStore\\Models\\Product.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-22T05:48:46.604Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductsController.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\Controllers\\ProductsController.cs",
+              "RelativeDocumentMoniker": "ComputerStore\\Controllers\\ProductsController.cs",
+              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\Controllers\\ProductsController.cs",
+              "RelativeToolTip": "ComputerStore\\Controllers\\ProductsController.cs",
+              "ViewState": "AQIAABYAAAAAAAAAAAAgwAoAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-22T05:46:10.092Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ComputerStore.http",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\ComputerStore.http",
+              "RelativeDocumentMoniker": "ComputerStore\\ComputerStore.http",
+              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\ComputerStore.http",
+              "RelativeToolTip": "ComputerStore\\ComputerStore.http",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAADAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-04-22T05:35:57.517Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\Program.cs",
+              "RelativeDocumentMoniker": "ComputerStore\\Program.cs",
+              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\Program.cs",
+              "RelativeToolTip": "ComputerStore\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-22T05:34:07.449Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\ComputerStore.csproj": {}
+    "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\ComputerStore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\ComputerStore.csproj": {
+    "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\ComputerStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\ComputerStore.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\ComputerStore.csproj",
         "projectName": "ComputerStore",
-        "projectPath": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\ComputerStore.csproj",
-        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\obj\\",
+        "projectPath": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\ComputerStore.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -43,15 +43,30 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.15, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.15, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.4.0, )"
+              "version": "[8.1.1, )"
             },
             "Swashbuckle.AspNetCore.Annotations": {
               "target": "Package",
@@ -77,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

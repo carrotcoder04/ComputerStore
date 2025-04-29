@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "cqgbQ8xl4Pt3coAFEf1nSueQqzuWdtvN+Yx9r5H8XLQ=",
+  "Hash": "WcoWeQTsxGWs4ORRiSm+9z9Ev315gyjgM8b77WkJrH4=",
   "Source": "ComputerStore",
   "BasePath": "_content/ComputerStore",
   "Mode": "Default",
@@ -17,7 +17,7 @@
   ],
   "Assets": [
     {
-      "Identity": "c:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\pc_01.jpg",
+      "Identity": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\pc_01.jpg",
       "SourceId": "ComputerStore",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\",
@@ -41,7 +41,7 @@
   "Endpoints": [
     {
       "Route": "images/pc_01.jpg",
-      "AssetFile": "c:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\pc_01.jpg",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\pc_01.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -78,7 +78,7 @@
     },
     {
       "Route": "images/pc_01.s35vpgmtqg.jpg",
-      "AssetFile": "c:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\pc_01.jpg",
+      "AssetFile": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\pc_01.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {

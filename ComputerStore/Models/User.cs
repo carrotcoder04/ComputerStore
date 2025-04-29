@@ -26,4 +26,9 @@ namespace ComputerStore.Models
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
     }
+    public class Role
+    {
+        public const string ADMIN = "admin";
+        public const string USER = "user";
+    }
 }

@@ -147,3 +147,4 @@ c:\Users\Admin\Desktop\Web\BE\ComputerStore\ComputerStore\obj\Debug\net8.0\Compu
 C:\Users\Admin\Desktop\Web\BE\ComputerStore\ComputerStore\obj\Debug\net8.0\ComputerStore.genruntimeconfig.cache
 C:\Users\Admin\Desktop\Web\BE\ComputerStore\ComputerStore\obj\Debug\net8.0\ref\ComputerStore.dll
 c:\Users\Admin\Desktop\Web\BE\ComputerStore\ComputerStore\bin\Debug\net8.0\ComputerStore.staticwebassets.runtime.json
+C:\Users\Admin\Desktop\Web\BE\ComputerStore\ComputerStore\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

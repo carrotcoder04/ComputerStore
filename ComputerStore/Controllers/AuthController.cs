@@ -17,7 +17,7 @@ namespace ComputerStore.Controllers
             this.context = context;
         }
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginDTO request)
         {
             var user = context.Users.FirstOrDefault(u => u.Email == request.Email && u.Password == request.Password);
             if (user == null)
@@ -25,8 +25,8 @@ namespace ComputerStore.Controllers
                 return Unauthorized("Invalid credentials");
             }
             var claims = new List<Claim> {
-                new Claim("email", user.Email),
-                new Claim("role", user.Role)
+                new Claim(ClaimTypes.NameIdentifier, user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
             };
             var identity = new ClaimsIdentity(claims, Program.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
@@ -37,22 +37,18 @@ namespace ComputerStore.Controllers
             });
             return Ok(user);
         }
-        [Authorize(AuthenticationSchemes = Program.AuthenticationScheme)]
+        [Authorize]
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            var email = User.FindFirst("email")?.Value;
-            var role = User.FindFirst("role")?.Value;
             await HttpContext.SignOutAsync(Program.AuthenticationScheme);
             return Ok(new
             {
                 message = "Logged out successfully",
-                email = email,
-                role = role
             });
         }
         [HttpPost("register")]
-        public IActionResult Register([FromBody] RegisterRequest registerRequest)
+        public IActionResult Register([FromBody] RegisterDTO registerRequest)
         {
             if (context.Users.Any(u => u.Email == registerRequest.Email))
             {
@@ -66,7 +62,7 @@ namespace ComputerStore.Controllers
                 Phone = registerRequest.Phone,
                 Gender = registerRequest.Gender,
                 Address = registerRequest.Address,
-                Role = "user",
+                Role = Role.USER,
             };
             context.Users.Add(user);
             context.SaveChanges();

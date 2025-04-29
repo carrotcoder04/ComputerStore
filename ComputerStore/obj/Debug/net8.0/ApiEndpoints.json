@@ -1,8 +1,60 @@
 [
   {
+    "ContainingType": "ComputerStore.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "ComputerStore.Requests.LoginDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ComputerStore.Controllers.AuthController",
+    "Method": "Logout",
+    "RelativePath": "api/auth/logout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ComputerStore.Controllers.AuthController",
+    "Method": "Register",
+    "RelativePath": "api/auth/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registerRequest",
+        "Type": "ComputerStore.Requests.RegisterDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ComputerStore.Controllers.ProductsController",
+    "Method": "GetAll",
+    "RelativePath": "api/products",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ComputerStore.Controllers.ProductsController",
     "Method": "GetById",
-    "RelativePath": "{id}",
+    "RelativePath": "api/products/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -18,7 +70,7 @@
   {
     "ContainingType": "ComputerStore.Controllers.ProductsController",
     "Method": "Update",
-    "RelativePath": "{id}",
+    "RelativePath": "api/products/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -39,7 +91,7 @@
   {
     "ContainingType": "ComputerStore.Controllers.ProductsController",
     "Method": "Delete",
-    "RelativePath": "{id}",
+    "RelativePath": "api/products/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -54,22 +106,34 @@
   },
   {
     "ContainingType": "ComputerStore.Controllers.ProductsController",
-    "Method": "GetAll",
-    "RelativePath": "alls",
-    "HttpMethod": "GET",
+    "Method": "CreateCategory",
+    "RelativePath": "api/products/createcategory",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "categoryName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "ComputerStore.Controllers.ProductsController",
-    "Method": "SeedData",
-    "RelativePath": "seed",
+    "Method": "Create",
+    "RelativePath": "api/products/createproduct",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "product",
+        "Type": "ComputerStore.Requests.CreateProductDTO",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   }
 ]

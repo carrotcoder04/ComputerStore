@@ -1,6 +1,6 @@
 namespace ComputerStore.Requests
 {
-    public class RegisterRequest
+    public class RegisterDTO
     {
         public string Email { get; set; }
         public string Password { get; set; }

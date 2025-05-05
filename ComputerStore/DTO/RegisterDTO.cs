@@ -1,4 +1,4 @@
-namespace ComputerStore.Requests
+namespace ComputerStore.DTO
 {
     public class RegisterDTO
     {

@@ -1,6 +1,6 @@
-namespace ComputerStore.Requests
+﻿namespace ComputerStore.DTO
 {
-    public class CreateProductDTO
+    public class UpdateProductDTO
     {
         public string Name { get; set; }
         public string? Description { get; set; }

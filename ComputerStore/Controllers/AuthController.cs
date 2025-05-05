@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using ComputerStore.Models;
-using ComputerStore.Requests;
+using ComputerStore.DTO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,18 +1,18 @@
-﻿using ComputerStore.Models;
+﻿using ComputerStore.DTO;
+using ComputerStore.Models;
 using ComputerStore.Requests;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace ComputerStore.Controllers
 {
     [ApiController]
-    [Route("api/products")]
-    public class ProductsController : ControllerBase
+    [Route("api/product")]
+    public class ProductController : ControllerBase
     {
         private readonly AppDbContext context;
-        public ProductsController(AppDbContext context)
+        public ProductController(AppDbContext context)
         {
             this.context = context;
         }
@@ -49,23 +49,9 @@ namespace ComputerStore.Controllers
             var product = context.Products.FirstOrDefault(p => p.Id == id);
             return Ok(product);
         }
+        
         [Authorize(Roles = Role.ADMIN)]
-        [HttpPost("createcategory")]
-        public IActionResult CreateCategory([FromBody] string categoryName)
-        {
-            if (context.Categories.Any(c => c.Name == categoryName))
-            {
-                return BadRequest("Category existed!");
-            }
-            var category = context.Categories.Add(new Category()
-            {
-                Name = categoryName
-            });
-            context.SaveChanges();
-            return Ok(category.Entity);
-        }
-        [Authorize(Roles = Role.ADMIN)]
-        [HttpPost("createproduct")]
+        [HttpPost("create")]
         public IActionResult Create([FromBody] CreateProductDTO product)
         {
             if (!context.Categories.Any(c => c.Id == product.CategoryId))
@@ -83,20 +69,49 @@ namespace ComputerStore.Controllers
                 CategoryId = product.CategoryId,
                 WarrentyPeriod = product.WarrentyPeriod,
             });
+            if(!string.IsNullOrEmpty(product.Base64Image))
+            {
+                string fileName = $"{newProduct.Entity.Id}.jpg";
+                Resources.SaveBase64Image(product.Base64Image, fileName);
+                newProduct.Entity.Image = fileName;
+            }
             context.SaveChanges();
             return Ok(newProduct.Entity);
         }
         [Authorize(Roles = Role.ADMIN)]
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] string name)
+        public IActionResult Update(int id, [FromBody] UpdateProductDTO updateProduct)
         {
-            return Ok($"Updated {id}: {name}");
+            var product = context.Products.FirstOrDefault(p => p.Id == id);
+            if(product == null)
+            {
+                return BadRequest();
+            }
+            product.Name = updateProduct.Name;
+            product.Description = updateProduct.Description;
+            product.Price = updateProduct.Price;
+            product.Quantity = updateProduct.Quantity;
+            product.DiscountPercent = updateProduct.DiscountPercent;
+            product.CategoryId = updateProduct.CategoryId;
+            if (!string.IsNullOrEmpty(updateProduct.Base64Image))
+            {
+                string fileName = $"{product.Id}.jpg";
+                Resources.SaveBase64Image(updateProduct.Base64Image, fileName);
+            }
+            context.SaveChanges();
+            return Ok(product);
         }
         [Authorize(Roles = Role.ADMIN)]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            return Ok($"Deleted product {id}");
+            var product = context.Products.FirstOrDefault(p => p.Id == id);
+            if (product == null)
+            {
+                return BadRequest();
+            }
+            var del = context.Products.Remove(product);
+            return Ok(del.Entity);
         }
     }
 }

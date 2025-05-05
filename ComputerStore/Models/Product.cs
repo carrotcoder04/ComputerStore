@@ -28,6 +28,8 @@ namespace ComputerStore.Models
         public int WarrentyPeriod { get; set; }
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
+        [Column("image")]
+        public string Image { get; set; }
         [JsonIgnore]
         public Category Category { get; set; }
     }

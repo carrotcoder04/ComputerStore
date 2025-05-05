@@ -35,7 +35,8 @@ namespace ComputerStore.Controllers
                     p.Price,
                     p.Quantity,
                     p.DiscountPercent,
-                    p.PromotionEndDate
+                    p.PromotionEndDate,
+                    p.Image
                 }).ToArray()
             }).ToArray();
             return Ok(categories);
@@ -50,6 +51,26 @@ namespace ComputerStore.Controllers
         {
             var product = context.Products.FirstOrDefault(p => p.Id == id);
             return Ok(product);
+        }
+
+        [HttpGet("search")]
+        [SwaggerOperation(
+            Summary = "Tìm kiếm sản phẩm",
+            Description = "Tìm kiếm sản phẩm theo danh mục và từ khóa."
+        )]
+        public IActionResult Search([FromQuery] int? categoryId, [FromQuery] string? keyword)
+        {
+            var query = context.Products.AsQueryable();
+            if (categoryId.HasValue)
+            {
+                query = query.Where(p => p.CategoryId == categoryId.Value);
+            }
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(p => p.Name.Contains(keyword));
+            }
+            var products = query.ToList();
+            return Ok(products);
         }
 
         [Authorize(Roles = Role.ADMIN)]
@@ -85,7 +106,11 @@ namespace ComputerStore.Controllers
             }
 
             context.SaveChanges();
-            return Ok(newProduct.Entity);
+            return Ok(new
+            {
+                message = "Thêm sản phẩm thành công.",
+                product = newProduct.Entity
+            });
         }
 
         [Authorize(Roles = Role.ADMIN)]
@@ -116,7 +141,11 @@ namespace ComputerStore.Controllers
             }
 
             context.SaveChanges();
-            return Ok(product);
+            return Ok(new
+            {
+                message = "Cập nhật sản phẩm thành công.",
+                product = product
+            });
         }
 
         [Authorize(Roles = Role.ADMIN)]
@@ -135,7 +164,11 @@ namespace ComputerStore.Controllers
 
             var del = context.Products.Remove(product);
             context.SaveChanges();
-            return Ok(del.Entity);
+            return Ok(new
+            {
+                message = "Xóa sản phẩm thành công.",
+                product = del.Entity
+            });
         }
     }
 }

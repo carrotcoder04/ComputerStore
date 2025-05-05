@@ -20,7 +20,7 @@ namespace ComputerStore.Models
         [Column("discount_percent")]
         public int DiscountPercent { get; set; }
         [Column("promotion_end_date")]
-        public DateTime PromotionEndDate { get; set; }
+        public DateTime? PromotionEndDate { get; set; }
         [ForeignKey("Category")]
         [Column("category_id")]
         public int CategoryId { get; set; }
@@ -29,7 +29,7 @@ namespace ComputerStore.Models
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
         [Column("image")]
-        public string Image { get; set; }
+        public string? Image { get; set; }
         [JsonIgnore]
         public Category Category { get; set; }
     }

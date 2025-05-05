@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "vzc0allgiDtmT8WrZKvkk+YivVEYx0DoG+9cZD1iF1s=",
+  "Hash": "cqgbQ8xl4Pt3coAFEf1nSueQqzuWdtvN+Yx9r5H8XLQ=",
   "Source": "ComputerStore",
   "BasePath": "_content/ComputerStore",
   "Mode": "Default",
@@ -10,30 +10,116 @@
     {
       "Name": "ComputerStore\\wwwroot",
       "Source": "ComputerStore",
-      "ContentRoot": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\",
       "BasePath": "_content/ComputerStore",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\wwwroot\\images\\pc_01.jpg",
+      "Identity": "c:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\pc_01.jpg",
       "SourceId": "ComputerStore",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\",
       "BasePath": "_content/ComputerStore",
-      "RelativePath": "images/pc_01.jpg",
+      "RelativePath": "images/pc_01#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeBehavior": "",
       "AssetMergeSource": "",
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
+      "Fingerprint": "s35vpgmtqg",
+      "Integrity": "mMQDVO16J98lbqEx8jhXb4hdCDCs5dFcYYTeVgpQfXI=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\pc_01.jpg"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "images/pc_01.jpg",
+      "AssetFile": "c:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\pc_01.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "110267"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mMQDVO16J98lbqEx8jhXb4hdCDCs5dFcYYTeVgpQfXI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 24 Apr 2025 05:51:13 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-mMQDVO16J98lbqEx8jhXb4hdCDCs5dFcYYTeVgpQfXI="
+        }
+      ]
+    },
+    {
+      "Route": "images/pc_01.s35vpgmtqg.jpg",
+      "AssetFile": "c:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\pc_01.jpg",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "110267"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/jpeg"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mMQDVO16J98lbqEx8jhXb4hdCDCs5dFcYYTeVgpQfXI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 24 Apr 2025 05:51:13 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "s35vpgmtqg"
+        },
+        {
+          "Name": "label",
+          "Value": "images/pc_01.jpg"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-mMQDVO16J98lbqEx8jhXb4hdCDCs5dFcYYTeVgpQfXI="
+        }
+      ]
     }
   ]
 }

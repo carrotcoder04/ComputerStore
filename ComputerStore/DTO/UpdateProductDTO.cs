@@ -10,6 +10,6 @@
         public DateTime PromotionEndDate { get; set; }
         public int CategoryId { get; set; }
         public int WarrentyPeriod { get; set; }
-        public string Base64Image { get; set; }
+        public string? Base64Image { get; set; }
     }
 }

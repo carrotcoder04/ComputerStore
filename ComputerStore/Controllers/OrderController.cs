@@ -34,7 +34,13 @@ namespace ComputerStore.Controllers
                 .Select(o => new
                 {
                     o.Id,
-                    o.User.Email,
+                    User = new {
+                        o.User.Id,
+                        o.User.Email,
+                        o.User.Name,
+                        o.User.Phone,
+                        o.User.Address,
+                    },
                     o.TotalAmount,
                     o.OrderDate,
                     o.Status,

@@ -1,12 +1,8 @@
 {
   "Files": [
     {
-      "Id": "c:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\pc_01.jpg",
+      "Id": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\wwwroot\\images\\pc_01.jpg",
       "PackagePath": "staticwebassets\\images\\pc_01.jpg"
-    },
-    {
-      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ComputerStore.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
-      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ComputerStore.Microsoft.AspNetCore.StaticWebAssets.props",

@@ -83,8 +83,8 @@ namespace ComputerStore.Controllers
                 Gender = registerRequest.Gender,
                 Address = registerRequest.Address,
                 Role = Role.USER,
+                CreatedAt = DateTime.Now
             };
-
             context.Users.Add(user);
             context.SaveChanges();
             return Ok(user);

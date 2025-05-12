@@ -5,10 +5,9 @@ namespace ComputerStore.Controllers
     using ComputerStore.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
     using Swashbuckle.AspNetCore.Annotations;
 
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -18,6 +17,7 @@ namespace ComputerStore.Controllers
         {
             this.context = context;
         }
+
         [Authorize]
         [HttpPut("update")]
         [SwaggerOperation(
@@ -49,6 +49,7 @@ namespace ComputerStore.Controllers
                 user
             });
         }
+
         [Authorize]
         [HttpPut("change-password")]
         [SwaggerOperation(
@@ -77,6 +78,46 @@ namespace ComputerStore.Controllers
             return Ok(new
             {
                 message = "Đổi mật khẩu thành công."
+            });
+        }
+
+        [Authorize(Roles = Role.ADMIN)]
+        [HttpGet("all")]
+        [SwaggerOperation(
+            Summary = "Lấy tất cả thông tin người dùng (Admin)",
+            Description = "Admin có thể lấy danh sách tất cả người dùng trong hệ thống."
+        )]
+        public IActionResult GetAllUsers()
+        {
+            var users = context.Users.ToList();
+            return Ok(users);
+        }
+
+        [Authorize(Roles = Role.ADMIN)]
+        [HttpPut("admin-update/{id}")]
+        [SwaggerOperation(
+            Summary = "Cập nhật thông tin người dùng (Admin)",
+            Description = "Admin có thể cập nhật thông tin của bất kỳ người dùng nào."
+        )]
+        public IActionResult AdminUpdateUser(int id, [FromBody] UpdateUserDTO updateRequest)
+        {
+            var user = context.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null)
+            {
+                return NotFound("Người dùng không tồn tại.");
+            }
+
+            user.Name = updateRequest.Name ?? user.Name;
+            user.Phone = updateRequest.Phone ?? user.Phone;
+            user.Gender = updateRequest.Gender ?? user.Gender;
+            user.Address = updateRequest.Address ?? user.Address;
+            context.Users.Update(user);
+            context.SaveChanges();
+
+            return Ok(new
+            {
+                message = "Cập nhật thông tin người dùng thành công.",
+                user
             });
         }
     }

@@ -22,7 +22,7 @@ namespace ComputerStore.Controllers
             Summary = "Lấy tất cả sản phẩm",
             Description = "Trả về danh sách tất cả sản phẩm được nhóm theo danh mục."
         )]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromQuery] int? limit)
         {
             var categories = context.Categories.Select(c => new
             {
@@ -37,7 +37,9 @@ namespace ComputerStore.Controllers
                     p.DiscountPercent,
                     p.PromotionEndDate,
                     p.Image
-                }).ToArray()
+                })
+                .Take(limit ?? int.MaxValue) // Giới hạn số sản phẩm trả về
+                .ToArray()
             }).ToArray();
             return Ok(categories);
         }
@@ -58,7 +60,7 @@ namespace ComputerStore.Controllers
             Summary = "Tìm kiếm sản phẩm",
             Description = "Tìm kiếm sản phẩm theo danh mục và từ khóa."
         )]
-        public IActionResult Search([FromQuery] int? categoryId, [FromQuery] string? keyword)
+        public IActionResult Search([FromQuery] int? categoryId, [FromQuery] string? keyword, [FromQuery] int? limit)
         {
             var query = context.Products.AsQueryable();
             if (categoryId.HasValue)
@@ -69,15 +71,15 @@ namespace ComputerStore.Controllers
             {
                 query = query.Where(p => p.Name.Contains(keyword));
             }
-            var products = query.ToList();
+            var products = query.Take(limit ?? int.MaxValue).ToList(); // Giới hạn số sản phẩm trả về
             return Ok(products);
         }
 
         [Authorize(Roles = Role.ADMIN)]
         [HttpPost("create")]
         [SwaggerOperation(
-            Summary = "Tạo sản phẩm mới",
-            Description = "Thêm một sản phẩm mới vào cơ sở dữ liệu và liên kết với danh mục hiện có."
+            Summary = "Tạo sản phẩm mới (Admin)",
+            Description = "Thêm một sản phẩm mới vào cơ sở dữ liệu và liên kết với danh mục hiện có. Chỉ dành cho Admin."
         )]
         public IActionResult Create([FromBody] CreateProductDTO product)
         {
@@ -116,8 +118,8 @@ namespace ComputerStore.Controllers
         [Authorize(Roles = Role.ADMIN)]
         [HttpPut("{id}")]
         [SwaggerOperation(
-            Summary = "Cập nhật sản phẩm",
-            Description = "Cập nhật thông tin của sản phẩm dựa trên mã sản phẩm được cung cấp."
+            Summary = "Cập nhật sản phẩm (Admin)",
+            Description = "Cập nhật thông tin của sản phẩm dựa trên mã sản phẩm được cung cấp. Chỉ dành cho Admin."
         )]
         public IActionResult Update(int id, [FromBody] UpdateProductDTO updateProduct)
         {
@@ -151,8 +153,8 @@ namespace ComputerStore.Controllers
         [Authorize(Roles = Role.ADMIN)]
         [HttpDelete("{id}")]
         [SwaggerOperation(
-            Summary = "Xóa sản phẩm",
-            Description = "Xóa sản phẩm khỏi cơ sở dữ liệu dựa trên mã sản phẩm được cung cấp."
+            Summary = "Xóa sản phẩm (Admin)",
+            Description = "Xóa sản phẩm khỏi cơ sở dữ liệu dựa trên mã sản phẩm được cung cấp. Chỉ dành cho Admin."
         )]
         public IActionResult Delete(int id)
         {

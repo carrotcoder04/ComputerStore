@@ -37,5 +37,15 @@ namespace ComputerStore.Controllers
             context.SaveChanges();
             return Ok(category.Entity);
         }
+        [HttpGet]
+        [SwaggerOperation(
+            Summary = "Lấy tất cả danh mục",
+            Description = "Trả về danh sách tất cả các danh mục."
+        )]
+        public IActionResult GetAllCategories()
+        {
+            var categories = context.Categories.ToList();
+            return Ok(categories);
+        }
     }
 }

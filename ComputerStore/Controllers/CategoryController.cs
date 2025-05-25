@@ -19,7 +19,7 @@ namespace ComputerStore.Controllers
         [Authorize(Roles = Role.ADMIN)]
         [HttpPost("create")]
         [SwaggerOperation(
-            Summary = "Tạo danh mục mới",
+            Summary = "Tạo danh mục mới (Admin)",
             Description = "Thêm một danh mục mới vào cơ sở dữ liệu. Chỉ dành cho quản trị viên."
         )]
         public IActionResult CreateCategory([FromBody] string categoryName)

@@ -1,6 +1,22 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\wwwroot\\images\\0.jpg",
+      "PackagePath": "staticwebassets\\images\\0.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\wwwroot\\images\\60.jpg",
+      "PackagePath": "staticwebassets\\images\\60.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\wwwroot\\images\\61.jpg",
+      "PackagePath": "staticwebassets\\images\\61.jpg"
+    },
+    {
+      "Id": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\wwwroot\\images\\62.jpg",
+      "PackagePath": "staticwebassets\\images\\62.jpg"
+    },
+    {
       "Id": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\wwwroot\\images\\pc_01.jpg",
       "PackagePath": "staticwebassets\\images\\pc_01.jpg"
     },

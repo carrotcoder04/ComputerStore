@@ -44,7 +44,15 @@ namespace ComputerStore.Controllers
                 ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1)
             });
 
-            return Ok(user);
+            return Ok(new {
+                    user.Id,
+                    user.Email,
+                    user.Name,
+                    user.Phone,
+                    user.Gender,
+                    user.Address,
+                    user.Role
+                });
         }
 
         [Authorize]
@@ -85,9 +93,17 @@ namespace ComputerStore.Controllers
                 Role = Role.USER,
                 CreatedAt = DateTime.Now
             };
-            context.Users.Add(user);
+            var u = context.Users.Add(user).Entity;
             context.SaveChanges();
-            return Ok(user);
+            return Ok(new {
+                    u.Id,
+                    u.Email,
+                    u.Name,
+                    u.Phone,
+                    u.Gender,
+                    u.Address,
+                    u.Role
+            });
         }
     }
 }

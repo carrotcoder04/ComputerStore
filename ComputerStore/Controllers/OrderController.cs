@@ -23,18 +23,30 @@ namespace ComputerStore.Controllers
         [HttpGet]
         [SwaggerOperation(
             Summary = "Lấy danh sách đơn hàng (Admin)",
-            Description = "Admin có thể xem tất cả các đơn hàng."
+            Description = "Admin có thể xem tất cả các đơn hàng và hỗ trợ phân trang."
         )]
-        public IActionResult GetAllOrders()
+        public IActionResult GetAllOrders([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var orders = context.Orders
+            if (page <= 0 || pageSize <= 0)
+            {
+                return BadRequest("Số trang và kích thước trang phải lớn hơn 0.");
+            }
+
+            var query = context.Orders
                 .Include(o => o.User)
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Product)
+                .AsQueryable();
+
+            var totalItems = query.Count();
+            var orders = query
+                .Skip((page - 1) * pageSize) // Bỏ qua các đơn hàng của các trang trước
+                .Take(pageSize)             // Lấy số lượng đơn hàng theo kích thước trang
                 .Select(o => new
                 {
                     o.Id,
-                    User = new {
+                    User = new
+                    {
                         o.User.Id,
                         o.User.Email,
                         o.User.Name,
@@ -53,17 +65,29 @@ namespace ComputerStore.Controllers
                 })
                 .ToList();
 
-            return Ok(orders);
+            return Ok(new
+            {
+                totalItems,
+                page,
+                pageSize,
+                totalPages = (int)Math.Ceiling(totalItems / (double)pageSize),
+                orders
+            });
         }
 
         [Authorize]
         [HttpGet("my-orders")]
         [SwaggerOperation(
             Summary = "Lấy danh sách đơn hàng của người dùng",
-            Description = "Người dùng có thể xem danh sách đơn hàng của chính mình."
+            Description = "Người dùng có thể xem danh sách đơn hàng của chính mình và hỗ trợ phân trang."
         )]
-        public IActionResult GetMyOrders()
+        public IActionResult GetMyOrders([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
+            if (page <= 0 || pageSize <= 0)
+            {
+                return BadRequest("Số trang và kích thước trang phải lớn hơn 0.");
+            }
+
             var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
             if (userIdClaim == null)
             {
@@ -72,10 +96,16 @@ namespace ComputerStore.Controllers
 
             var userId = int.Parse(userIdClaim.Value);
 
-            var orders = context.Orders
+            var query = context.Orders
                 .Where(o => o.UserId == userId)
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Product)
+                .AsQueryable();
+
+            var totalItems = query.Count();
+            var orders = query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(o => new
                 {
                     o.Id,
@@ -91,7 +121,14 @@ namespace ComputerStore.Controllers
                 })
                 .ToList();
 
-            return Ok(orders);
+            return Ok(new
+            {
+                totalItems,
+                page,
+                pageSize,
+                totalPages = (int)Math.Ceiling(totalItems / (double)pageSize),
+                orders
+            });
         }
 
         [Authorize]
@@ -180,7 +217,10 @@ namespace ComputerStore.Controllers
             {
                 return Unauthorized("Không tìm thấy thông tin người dùng.");
             }
-
+            if (orderRequest.Items.Any(p => p.Quantity <= 0))
+            {
+                return BadRequest("Số lượng sản phẩm không hợp lệ. Vui lòng kiểm tra lại.");
+            }
             var userId = int.Parse(userIdClaim.Value);
 
             if (orderRequest.Items == null || !orderRequest.Items.Any())

@@ -20,28 +20,31 @@ namespace ComputerStore.Controllers
         [HttpGet]
         [SwaggerOperation(
             Summary = "Lấy tất cả sản phẩm",
-            Description = "Trả về danh sách tất cả sản phẩm được nhóm theo danh mục."
+            Description = "Trả về danh sách tất cả sản phẩm được nhóm theo danh mục và hỗ trợ phân trang."
         )]
-        public IActionResult GetAll([FromQuery] int? limit)
+        public IActionResult GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var categories = context.Categories.Select(c => new
+            if (page <= 0 || pageSize <= 0)
             {
-                c.Id,
-                c.Name,
-                Products = c.Products.Select(p => new
-                {
-                    p.Id,
-                    p.Name,
-                    p.Price,
-                    p.Quantity,
-                    p.DiscountPercent,
-                    p.PromotionEndDate,
-                    p.Image
-                })
-                .Take(limit ?? int.MaxValue) // Giới hạn số sản phẩm trả về
-                .ToArray()
-            }).ToArray();
-            return Ok(categories);
+                return BadRequest("Số trang và kích thước trang phải lớn hơn 0.");
+            }
+
+            var query = context.Products.AsQueryable();
+
+            var totalItems = query.Count();
+            var products = query
+                .Skip((page - 1) * pageSize) // Bỏ qua các sản phẩm của các trang trước
+                .Take(pageSize)             // Lấy số lượng sản phẩm theo kích thước trang
+                .ToList();
+
+            return Ok(new
+            {
+                totalItems,
+                page,
+                pageSize,
+                totalPages = (int)Math.Ceiling(totalItems / (double)pageSize),
+                products
+            });
         }
 
         [HttpGet("{id}")]
@@ -58,21 +61,40 @@ namespace ComputerStore.Controllers
         [HttpGet("search")]
         [SwaggerOperation(
             Summary = "Tìm kiếm sản phẩm",
-            Description = "Tìm kiếm sản phẩm theo danh mục và từ khóa."
+            Description = "Tìm kiếm sản phẩm theo danh mục, từ khóa và hỗ trợ phân trang."
         )]
-        public IActionResult Search([FromQuery] int? categoryId, [FromQuery] string? keyword, [FromQuery] int? limit)
+        public IActionResult Search([FromQuery] int? categoryId, [FromQuery] string? keyword, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
+            if (page <= 0 || pageSize <= 0)
+            {
+                return BadRequest("Số trang và kích thước trang phải lớn hơn 0.");
+            }
+
             var query = context.Products.AsQueryable();
+
             if (categoryId.HasValue)
             {
                 query = query.Where(p => p.CategoryId == categoryId.Value);
             }
+
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(p => p.Name.Contains(keyword));
             }
-            var products = query.Take(limit ?? int.MaxValue).ToList(); // Giới hạn số sản phẩm trả về
-            return Ok(products);
+            var totalItems = query.Count();
+            var products = query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return Ok(new
+            {
+                totalItems,
+                page,
+                pageSize,
+                totalPages = (int)Math.Ceiling(totalItems / (double)pageSize),
+                products
+            });
         }
 
         [Authorize(Roles = Role.ADMIN)]
@@ -99,12 +121,12 @@ namespace ComputerStore.Controllers
                 CategoryId = product.CategoryId,
                 WarrentyPeriod = product.WarrentyPeriod,
             });
-
+            context.SaveChanges();
             if (!string.IsNullOrEmpty(product.Base64Image))
             {
                 string fileName = $"{newProduct.Entity.Id}.jpg";
                 Resources.SaveBase64Image(product.Base64Image, fileName);
-                newProduct.Entity.Image = fileName;
+                newProduct.Entity.Image = $"images/{fileName}";
             }
 
             context.SaveChanges();
@@ -128,25 +150,27 @@ namespace ComputerStore.Controllers
             {
                 return BadRequest("Sản phẩm không tồn tại.");
             }
-
+           if(!context.Categories.Any(c => c.Id == updateProduct.CategoryId)) {
+                return BadRequest("Danh mục sản phẩm không tồn tại");
+            }
             product.Name = updateProduct.Name;
             product.Description = updateProduct.Description;
             product.Price = updateProduct.Price;
             product.Quantity = updateProduct.Quantity;
             product.DiscountPercent = updateProduct.DiscountPercent;
             product.CategoryId = updateProduct.CategoryId;
-
             if (!string.IsNullOrEmpty(updateProduct.Base64Image))
             {
                 string fileName = $"{product.Id}.jpg";
                 Resources.SaveBase64Image(updateProduct.Base64Image, fileName);
+                product.Image = $"images/{fileName}";
             }
-
+            var p = context.Products.Update(product);
             context.SaveChanges();
             return Ok(new
             {
                 message = "Cập nhật sản phẩm thành công.",
-                product = product
+                product = p.Entity
             });
         }
 

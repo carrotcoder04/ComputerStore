@@ -33,8 +33,8 @@ namespace ComputerStore.Controllers
 
             var totalItems = query.Count();
             var products = query
-                .Skip((page - 1) * pageSize) // Bỏ qua các sản phẩm của các trang trước
-                .Take(pageSize)             // Lấy số lượng sản phẩm theo kích thước trang
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize) 
                 .ToList();
 
             return Ok(new
@@ -150,7 +150,8 @@ namespace ComputerStore.Controllers
             {
                 return BadRequest("Sản phẩm không tồn tại.");
             }
-           if(!context.Categories.Any(c => c.Id == updateProduct.CategoryId)) {
+            if (!context.Categories.Any(c => c.Id == updateProduct.CategoryId))
+            {
                 return BadRequest("Danh mục sản phẩm không tồn tại");
             }
             product.Name = updateProduct.Name;
@@ -195,6 +196,32 @@ namespace ComputerStore.Controllers
                 message = "Xóa sản phẩm thành công.",
                 product = del.Entity
             });
+        }
+        [HttpGet("by-category")]
+        [SwaggerOperation(
+            Summary = "Liệt kê tất cả sản phẩm theo danh mục",
+            Description = "Trả về danh sách tất cả sản phẩm được nhóm theo danh mục."
+        )]
+        public IActionResult GetProductsByCategory()
+        {
+            var categories = context.Categories
+                .Select(c => new
+                {
+                    CategoryId = c.Id,
+                    CategoryName = c.Name,
+                    Products = c.Products.Select(p => new
+                    {
+                        p.Id,
+                        p.Name,
+                        p.Price,
+                        p.Quantity,
+                        p.DiscountPercent,
+                        p.PromotionEndDate,
+                        p.Image
+                    }).ToArray()
+                })
+                .ToArray();
+            return Ok(categories);
         }
     }
 }

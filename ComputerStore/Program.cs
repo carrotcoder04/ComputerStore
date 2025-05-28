@@ -10,6 +10,17 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", policy =>
+            {
+                policy
+                    .WithOrigins("http://localhost:8080")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+        });
         builder.Services.AddAuthentication(AuthenticationScheme)
             .AddCookie(AuthenticationScheme, options =>
             {
@@ -43,24 +54,10 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+        app.UseCors("AllowAll");
         app.UseAuthorization();
         app.UseStaticFiles();
         app.MapControllers();
-        app.Use(async (context, next) =>
-        {
-            var logger = context.RequestServices.GetRequiredService<ILoggerFactory>()
-                                                .CreateLogger("RequestLogger");
-            logger.LogInformation("➡️ Request: {method} {url}", context.Request.Method, context.Request.Path);
-            var originalBodyStream = context.Response.Body;
-            using var responseBody = new MemoryStream();
-            context.Response.Body = responseBody;
-            await next();
-            context.Response.Body.Seek(0, SeekOrigin.Begin);
-            string responseText = new StreamReader(context.Response.Body).ReadToEnd();
-            context.Response.Body.Seek(0, SeekOrigin.Begin);
-            logger.LogInformation("⬅️ Response: {statusCode} Body: {body}", context.Response.StatusCode, responseText);
-            await responseBody.CopyToAsync(originalBodyStream);
-        });
         app.Run();
     }
 }

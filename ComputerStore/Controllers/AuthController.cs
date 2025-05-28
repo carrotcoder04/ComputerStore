@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Diagnostics;
 
 namespace ComputerStore.Controllers
 {
@@ -43,7 +44,6 @@ namespace ComputerStore.Controllers
                 IsPersistent = true,
                 ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1)
             });
-
             return Ok(new {
                     user.Id,
                     user.Email,
@@ -75,13 +75,12 @@ namespace ComputerStore.Controllers
             Summary = "Đăng ký tài khoản",
             Description = "Tạo tài khoản mới cho người dùng với thông tin được cung cấp."
         )]
-        public IActionResult Register([FromBody] RegisterDTO registerRequest)
+        public async Task<IActionResult> Register([FromBody] RegisterDTO registerRequest)
         {
             if (context.Users.Any(u => u.Email == registerRequest.Email))
             {
                 return BadRequest("Email đã tồn tại.");
             }
-
             var user = new User
             {
                 Email = registerRequest.Email,
@@ -95,15 +94,28 @@ namespace ComputerStore.Controllers
             };
             var u = context.Users.Add(user).Entity;
             context.SaveChanges();
-            return Ok(new {
-                    u.Id,
-                    u.Email,
-                    u.Name,
-                    u.Phone,
-                    u.Gender,
-                    u.Address,
-                    u.Role
+             var claims = new List<Claim> {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Role, user.Role)
+            };
+            var identity = new ClaimsIdentity(claims, Program.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(Program.AuthenticationScheme, principal, new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1)
             });
+            var response = new
+            {
+                u.Id,
+                u.Email,
+                u.Name,
+                u.Phone,
+                u.Gender,
+                u.Address,
+                u.Role
+            };
+            return Ok(response);
         }
     }
 }

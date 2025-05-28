@@ -274,5 +274,30 @@ namespace ComputerStore.Controllers
                 order
             });
         }
+        [Authorize(Roles = Role.ADMIN)]
+        [HttpDelete("{id}")]
+        [SwaggerOperation(
+            Summary = "Xóa đơn hàng (Admin)",
+            Description = "Admin có thể xóa bất kỳ đơn hàng nào."
+        )]
+        public IActionResult DeleteOrder(int id)
+        {
+            var order = context.Orders
+                .Include(o => o.OrderItems)
+                .FirstOrDefault(o => o.Id == id);
+
+            if (order == null)
+            {
+                return NotFound("Đơn hàng không tồn tại.");
+            }
+            context.OrderItems.RemoveRange(order.OrderItems);
+            context.Orders.Remove(order);
+            context.SaveChanges();
+            return Ok(new
+            {
+                message = "Xóa đơn hàng thành công.",
+                orderId = id
+            });
+        }
     }
 }

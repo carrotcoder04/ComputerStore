@@ -18,7 +18,7 @@ namespace ComputerStore.Controllers
             this.context = context;
         }
         [Authorize(Roles = Role.ADMIN)]
-        [HttpGet("all")]
+        [HttpGet]
         [SwaggerOperation(
             Summary = "Lấy tất cả đánh giá (Admin)",
             Description = "Admin có thể lấy danh sách tất cả đánh giá trong hệ thống và hỗ trợ phân trang."
@@ -93,7 +93,7 @@ namespace ComputerStore.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPost("create")]
         [SwaggerOperation(
             Summary = "Thêm đánh giá mới",
             Description = "Người dùng có thể thêm đánh giá mới cho một sản phẩm."

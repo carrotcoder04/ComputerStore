@@ -1,6 +1,8 @@
-﻿using ComputerStore.DTO;
+﻿using System.Security.Claims;
+using ComputerStore.DTO;
 using ComputerStore.Models;
 using ComputerStore.Requests;
+using ComputerStore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -9,12 +11,35 @@ namespace ComputerStore.Controllers
 {
     [ApiController]
     [Route("api/product")]
-    public class ProductController : ControllerBase
+    public class ProductController : BaseController
     {
-        private readonly AppDbContext context;
-        public ProductController(AppDbContext context)
+        private readonly ProductService _service;
+
+        public ProductController(ProductService service)
         {
-            this.context = context;
+            _service = service;
+        }
+        [Authorize(Roles = Role.ADMIN)]
+        [HttpPost("create")]
+        [SwaggerOperation(
+            Summary = "Tạo sản phẩm mới (Admin)",
+            Description = "Thêm một sản phẩm mới vào cơ sở dữ liệu và liên kết với danh mục hiện có. Chỉ dành cho Admin."
+        )]
+        public async Task<IActionResult> Create([FromForm] CreateProductRequest product)
+        {
+            try
+            {
+                var newProduct = await _service.CreateProduct(UserId, product);
+                return Success(new
+                {
+                    Message = "Tạo sản phẩm thành công",
+                    Product = newProduct
+                });
+            }
+            catch (Exception ex)
+            {
+                return Error(ex);
+            }
         }
 
         [HttpGet]
@@ -24,27 +49,26 @@ namespace ComputerStore.Controllers
         )]
         public IActionResult GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            if (page <= 0 || pageSize <= 0)
+            try
             {
-                return BadRequest("Số trang và kích thước trang phải lớn hơn 0.");
+                if (page <= 0 || pageSize <= 0)
+                {
+                    throw new("Số trang và kích thước trang phải lớn hơn 0.");
+                }
+                var (products, total) = _service.GetAllProducts(page, pageSize);
+                return Success(new
+                {
+                    Total = total,
+                    Page = page,
+                    PageSize = pageSize,
+                    TotalPages = (int)Math.Ceiling(total / (float)pageSize),
+                    Products = products
+                });
             }
-
-            var query = context.Products.AsQueryable();
-
-            var totalItems = query.Count();
-            var products = query
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize) 
-                .ToList();
-
-            return Ok(new
+            catch (Exception ex)
             {
-                totalItems,
-                page,
-                pageSize,
-                totalPages = (int)Math.Ceiling(totalItems / (double)pageSize),
-                products
-            });
+                return Error(ex);
+            }
         }
 
         [HttpGet("{id}")]
@@ -52,10 +76,17 @@ namespace ComputerStore.Controllers
             Summary = "Lấy sản phẩm theo mã",
             Description = "Trả về thông tin chi tiết của sản phẩm dựa trên mã sản phẩm được cung cấp."
         )]
-        public IActionResult GetById(int id)
+        public IActionResult GetProductById(int id)
         {
-            var product = context.Products.FirstOrDefault(p => p.Id == id);
-            return Ok(product);
+            try
+            {
+                var product = _service.GetProductById(id);
+                return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                return Error(ex);
+            }
         }
 
         [HttpGet("search")]
@@ -65,114 +96,47 @@ namespace ComputerStore.Controllers
         )]
         public IActionResult Search([FromQuery] int? categoryId, [FromQuery] string? keyword, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            if (page <= 0 || pageSize <= 0)
+            try
             {
-                return BadRequest("Số trang và kích thước trang phải lớn hơn 0.");
+                var query = _service.QueryProducts(categoryId, keyword);
+                var total = query.Count();
+                var products = query.Skip((page - 1) * pageSize).Take(pageSize);
+                return Success(new
+                    {
+                        Total = total,
+                        Page = page,
+                        PageSize = pageSize,
+                        TotalPages = (int)Math.Ceiling(total / (float)pageSize),
+                        Products = products
+                    }
+                );
             }
-
-            var query = context.Products.AsQueryable();
-
-            if (categoryId.HasValue)
+            catch (Exception ex)
             {
-                query = query.Where(p => p.CategoryId == categoryId.Value);
+                return Error(ex);
             }
-
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                query = query.Where(p => p.Name.Contains(keyword));
-            }
-            var totalItems = query.Count();
-            var products = query
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-
-            return Ok(new
-            {
-                totalItems,
-                page,
-                pageSize,
-                totalPages = (int)Math.Ceiling(totalItems / (double)pageSize),
-                products
-            });
         }
-
         [Authorize(Roles = Role.ADMIN)]
-        [HttpPost("create")]
-        [SwaggerOperation(
-            Summary = "Tạo sản phẩm mới (Admin)",
-            Description = "Thêm một sản phẩm mới vào cơ sở dữ liệu và liên kết với danh mục hiện có. Chỉ dành cho Admin."
-        )]
-        public IActionResult Create([FromBody] CreateProductDTO product)
-        {
-            if (!context.Categories.Any(c => c.Id == product.CategoryId))
-            {
-                return BadRequest("Danh mục không tồn tại!");
-            }
-
-            var newProduct = context.Products.Add(new Product()
-            {
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                Quantity = product.Quantity,
-                DiscountPercent = product.DiscountPercent,
-                PromotionEndDate = product.PromotionEndDate,
-                CategoryId = product.CategoryId,
-                WarrentyPeriod = product.WarrentyPeriod,
-            });
-            context.SaveChanges();
-            if (!string.IsNullOrEmpty(product.Base64Image))
-            {
-                string fileName = $"{newProduct.Entity.Id}.jpg";
-                Resources.SaveBase64Image(product.Base64Image, fileName);
-                newProduct.Entity.Image = $"images/{fileName}";
-            }
-
-            context.SaveChanges();
-            return Ok(new
-            {
-                message = "Thêm sản phẩm thành công.",
-                product = newProduct.Entity
-            });
-        }
-
-        [Authorize(Roles = Role.ADMIN)]
-        [HttpPut("{id}")]
+        [HttpPut]
         [SwaggerOperation(
             Summary = "Cập nhật sản phẩm (Admin)",
             Description = "Cập nhật thông tin của sản phẩm dựa trên mã sản phẩm được cung cấp. Chỉ dành cho Admin."
         )]
-        public IActionResult Update(int id, [FromBody] UpdateProductDTO updateProduct)
+        public async Task<IActionResult> Update([FromForm] UpdateProductRequest productRequest)
         {
-            var product = context.Products.FirstOrDefault(p => p.Id == id);
-            if (product == null)
+            try
             {
-                return BadRequest("Sản phẩm không tồn tại.");
+                var newProduct = await _service.UpdateProduct(UserId, productRequest);
+                return Success(new
+                {
+                    Message = "Cập nhật sản phẩm thành công",
+                    Product = newProduct
+                });
             }
-            if (!context.Categories.Any(c => c.Id == updateProduct.CategoryId))
+            catch (Exception ex)
             {
-                return BadRequest("Danh mục sản phẩm không tồn tại");
+                return Error(ex);
             }
-            product.Name = updateProduct.Name;
-            product.Description = updateProduct.Description;
-            product.Price = updateProduct.Price;
-            product.Quantity = updateProduct.Quantity;
-            product.DiscountPercent = updateProduct.DiscountPercent;
-            product.CategoryId = updateProduct.CategoryId;
-            if (!string.IsNullOrEmpty(updateProduct.Base64Image))
-            {
-                string fileName = $"{product.Id}.jpg";
-                Resources.SaveBase64Image(updateProduct.Base64Image, fileName);
-                product.Image = $"images/{fileName}";
-            }
-            var p = context.Products.Update(product);
-            context.SaveChanges();
-            return Ok(new
-            {
-                message = "Cập nhật sản phẩm thành công.",
-                product = p.Entity
-            });
         }
 
         [Authorize(Roles = Role.ADMIN)]
@@ -183,45 +147,29 @@ namespace ComputerStore.Controllers
         )]
         public IActionResult Delete(int id)
         {
-            var product = context.Products.FirstOrDefault(p => p.Id == id);
-            if (product == null)
+            try
             {
-                return BadRequest("Sản phẩm không tồn tại.");
+                var oldProduct = _service.DeleteProduct(id);
+                return Success(new
+                {
+                    Message = "Xóa sản phẩm thành công.",
+                    Product = oldProduct
+                });
             }
-
-            var del = context.Products.Remove(product);
-            context.SaveChanges();
-            return Ok(new
+            catch (Exception ex)
             {
-                message = "Xóa sản phẩm thành công.",
-                product = del.Entity
-            });
+                return Error(ex);
+            }
         }
-        [HttpGet("by-category")]
+        [HttpGet("groupby-category")]
         [SwaggerOperation(
             Summary = "Liệt kê tất cả sản phẩm theo danh mục",
             Description = "Trả về danh sách tất cả sản phẩm được nhóm theo danh mục."
         )]
         public IActionResult GetProductsByCategory()
         {
-            var categories = context.Categories
-                .Select(c => new
-                {
-                    CategoryId = c.Id,
-                    CategoryName = c.Name,
-                    Products = c.Products.Select(p => new
-                    {
-                        p.Id,
-                        p.Name,
-                        p.Price,
-                        p.Quantity,
-                        p.DiscountPercent,
-                        p.PromotionEndDate,
-                        p.Image
-                    }).ToArray()
-                })
-                .ToArray();
-            return Ok(categories);
+            var result = _service.GetProductsGroupedByCategory();
+            return Success(result);
         }
     }
 }

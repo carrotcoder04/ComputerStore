@@ -6,36 +6,22 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Diagnostics;
+using ComputerStore.Services;
+using ComputerStore.Requests;
 
 namespace ComputerStore.Controllers
 {
     [ApiController]
     [Route("api/auth")]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseController
     {
-        private readonly AppDbContext context;
-
-        public AuthController(AppDbContext context)
+        private readonly UserService _service;
+        public AuthController(UserService service) => _service = service;
+        private async Task SignInCookie(int userId, string role)
         {
-            this.context = context;
-        }
-
-        [HttpPost("login")]
-        [SwaggerOperation(
-            Summary = "Đăng nhập",
-            Description = "Xác thực thông tin đăng nhập của người dùng và tạo phiên làm việc."
-        )]
-        public async Task<IActionResult> Login([FromBody] LoginDTO request)
-        {
-            var user = context.Users.FirstOrDefault(u => u.Email == request.Email && u.Password == request.Password);
-            if (user == null)
-            {
-                return Unauthorized("Thông tin đăng nhập không hợp lệ.");
-            }
-
             var claims = new List<Claim> {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+                new Claim(ClaimTypes.Role, role)
             };
             var identity = new ClaimsIdentity(claims, Program.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
@@ -44,15 +30,28 @@ namespace ComputerStore.Controllers
                 IsPersistent = true,
                 ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1)
             });
-            return Ok(new {
-                    user.Id,
-                    user.Email,
-                    user.Name,
-                    user.Phone,
-                    user.Gender,
-                    user.Address,
-                    user.Role
+        }
+        [HttpPost("login")]
+        [SwaggerOperation(
+            Summary = "Đăng nhập",
+            Description = "Xác thực thông tin đăng nhập của người dùng và tạo phiên làm việc."
+        )]
+        public async Task<IActionResult> Login([FromBody] LoginRequest userRequest)
+        {
+            try
+            {
+                var user = _service.CheckUserLogin(userRequest);
+                await SignInCookie(user.Id, user.Role);
+                return Success(new
+                {
+                    Message = "Đăng nhập thành công",
+                    User = user.WithoutPassword()
                 });
+            }
+            catch (Exception ex)
+            {
+                return Error(ex);
+            }
         }
 
         [Authorize]
@@ -64,9 +63,9 @@ namespace ComputerStore.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(Program.AuthenticationScheme);
-            return Ok(new
+            return Success(new
             {
-                message = "Đăng xuất thành công.",
+                Message = "Đăng xuất thành công.",
             });
         }
 
@@ -75,47 +74,22 @@ namespace ComputerStore.Controllers
             Summary = "Đăng ký tài khoản",
             Description = "Tạo tài khoản mới cho người dùng với thông tin được cung cấp."
         )]
-        public async Task<IActionResult> Register([FromBody] RegisterDTO registerRequest)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest userRequest)
         {
-            if (context.Users.Any(u => u.Email == registerRequest.Email))
+            try
             {
-                return BadRequest("Email đã tồn tại.");
+                var user = _service.Register(userRequest);
+                await SignInCookie(user.Id, user.Role);
+                return Success(new
+                {
+                    Message = "Đăng kí thành công",
+                    User = user.WithoutPassword()
+                });
             }
-            var user = new User
+            catch (Exception ex)
             {
-                Email = registerRequest.Email,
-                Password = registerRequest.Password,
-                Name = registerRequest.Name,
-                Phone = registerRequest.Phone,
-                Gender = registerRequest.Gender,
-                Address = registerRequest.Address,
-                Role = Role.USER,
-                CreatedAt = DateTime.Now
-            };
-            var u = context.Users.Add(user).Entity;
-            context.SaveChanges();
-             var claims = new List<Claim> {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role)
-            };
-            var identity = new ClaimsIdentity(claims, Program.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
-            await HttpContext.SignInAsync(Program.AuthenticationScheme, principal, new AuthenticationProperties
-            {
-                IsPersistent = true,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1)
-            });
-            var response = new
-            {
-                u.Id,
-                u.Email,
-                u.Name,
-                u.Phone,
-                u.Gender,
-                u.Address,
-                u.Role
-            };
-            return Ok(response);
+                return Error(ex);
+            }
         }
     }
 }

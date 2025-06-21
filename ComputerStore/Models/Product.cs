@@ -29,7 +29,7 @@ namespace ComputerStore.Models
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
         [Column("image")]
-        public string? Image { get; set; }
+        public string Image { get; set; }
         [JsonIgnore]
         public Category Category { get; set; }
     }

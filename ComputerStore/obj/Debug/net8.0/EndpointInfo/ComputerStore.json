@@ -10,21 +10,23 @@
         "tags": [
           "Auth"
         ],
+        "summary": "Đăng nhập",
+        "description": "Xác thực thông tin đăng nhập của người dùng và tạo phiên làm việc.",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginDTO"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginDTO"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginDTO"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             }
           }
@@ -41,6 +43,8 @@
         "tags": [
           "Auth"
         ],
+        "summary": "Đăng xuất",
+        "description": "Đăng xuất người dùng khỏi hệ thống và kết thúc phiên làm việc.",
         "responses": {
           "200": {
             "description": "OK"
@@ -53,21 +57,23 @@
         "tags": [
           "Auth"
         ],
+        "summary": "Đăng ký tài khoản",
+        "description": "Tạo tài khoản mới cho người dùng với thông tin được cung cấp.",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterDTO"
+                "$ref": "#/components/schemas/RegisterRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterDTO"
+                "$ref": "#/components/schemas/RegisterRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterDTO"
+                "$ref": "#/components/schemas/RegisterRequest"
               }
             }
           }
@@ -79,13 +85,32 @@
         }
       }
     },
-    "/api/products": {
-      "get": {
+    "/api/category/create": {
+      "post": {
         "tags": [
-          "Products"
+          "Category"
         ],
-        "summary": "Lấy tất cả sản phẩm",
-        "description": "Trả về danh sách tất cả sản phẩm theo danh mục.",
+        "summary": "Tạo danh mục mới (Admin)",
+        "description": "Thêm một danh mục mới vào cơ sở dữ liệu. Chỉ dành cho quản trị viên.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -93,13 +118,120 @@
         }
       }
     },
-    "/api/products/{id}": {
+    "/api/category": {
       "get": {
         "tags": [
-          "Products"
+          "Category"
         ],
-        "summary": "Lấy sản phẩm theo mã sản phẩm",
-        "description": "Trả về sản phẩm theo mã tìm kiếm.",
+        "summary": "Lấy tất cả danh mục",
+        "description": "Trả về danh sách tất cả các danh mục.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/category/{id}": {
+      "delete": {
+        "tags": [
+          "Category"
+        ],
+        "summary": "Xóa danh mục (Admin)",
+        "description": "Admin có thể xóa một danh mục dựa trên mã danh mục.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/order": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Lấy danh sách đơn hàng (Admin)",
+        "description": "Admin có thể xem tất cả các đơn hàng và hỗ trợ phân trang.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/order/my-orders": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Lấy danh sách đơn hàng của người dùng",
+        "description": "Người dùng có thể xem danh sách đơn hàng của chính mình và hỗ trợ phân trang.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/order/{id}": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Lấy chi tiết đơn hàng",
+        "description": "Admin có thể xem chi tiết bất kỳ đơn hàng nào. Người dùng chỉ có thể xem đơn hàng của chính mình.",
         "parameters": [
           {
             "name": "id",
@@ -119,8 +251,10 @@
       },
       "put": {
         "tags": [
-          "Products"
+          "Order"
         ],
+        "summary": "Cập nhật trạng thái đơn hàng (Admin)",
+        "description": "Admin có thể cập nhật trạng thái của bất kỳ đơn hàng nào.",
         "parameters": [
           {
             "name": "id",
@@ -159,8 +293,10 @@
       },
       "delete": {
         "tags": [
-          "Products"
+          "Order"
         ],
+        "summary": "Xóa đơn hàng (Admin)",
+        "description": "Admin có thể xóa bất kỳ đơn hàng nào.",
         "parameters": [
           {
             "name": "id",
@@ -179,26 +315,28 @@
         }
       }
     },
-    "/api/products/createcategory": {
+    "/api/order/create": {
       "post": {
         "tags": [
-          "Products"
+          "Order"
         ],
+        "summary": "Đặt hàng",
+        "description": "Người dùng có thể tạo một đơn hàng mới với danh sách sản phẩm và số lượng.",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "type": "string"
+                "$ref": "#/components/schemas/CreateOrderDTO"
               }
             },
             "text/json": {
               "schema": {
-                "type": "string"
+                "$ref": "#/components/schemas/CreateOrderDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "type": "string"
+                "$ref": "#/components/schemas/CreateOrderDTO"
               }
             }
           }
@@ -210,26 +348,90 @@
         }
       }
     },
-    "/api/products/createproduct": {
+    "/api/product/create": {
       "post": {
         "tags": [
-          "Products"
+          "Product"
         ],
+        "summary": "Tạo sản phẩm mới (Admin)",
+        "description": "Thêm một sản phẩm mới vào cơ sở dữ liệu và liên kết với danh mục hiện có. Chỉ dành cho Admin.",
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProductDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProductDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProductDTO"
+                "required": [
+                  "Description",
+                  "Image",
+                  "Name",
+                  "Price",
+                  "Quantity"
+                ],
+                "type": "object",
+                "properties": {
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "Quantity": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Price": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "DiscountPercent": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "PromotionEndDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "CategoryId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "WarrentyPeriod": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Quantity": {
+                  "style": "form"
+                },
+                "Price": {
+                  "style": "form"
+                },
+                "DiscountPercent": {
+                  "style": "form"
+                },
+                "PromotionEndDate": {
+                  "style": "form"
+                },
+                "CategoryId": {
+                  "style": "form"
+                },
+                "WarrentyPeriod": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -240,88 +442,747 @@
           }
         }
       }
+    },
+    "/api/product": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Lấy tất cả sản phẩm",
+        "description": "Trả về danh sách tất cả sản phẩm được nhóm theo danh mục và hỗ trợ phân trang.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Cập nhật sản phẩm (Admin)",
+        "description": "Cập nhật thông tin của sản phẩm dựa trên mã sản phẩm được cung cấp. Chỉ dành cho Admin.",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "Description",
+                  "Id",
+                  "Image",
+                  "Name",
+                  "Price",
+                  "Quantity"
+                ],
+                "type": "object",
+                "properties": {
+                  "Id": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "Quantity": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Price": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "DiscountPercent": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "PromotionEndDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "CategoryId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "WarrentyPeriod": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "Id": {
+                  "style": "form"
+                },
+                "Name": {
+                  "style": "form"
+                },
+                "Description": {
+                  "style": "form"
+                },
+                "Quantity": {
+                  "style": "form"
+                },
+                "Price": {
+                  "style": "form"
+                },
+                "DiscountPercent": {
+                  "style": "form"
+                },
+                "PromotionEndDate": {
+                  "style": "form"
+                },
+                "CategoryId": {
+                  "style": "form"
+                },
+                "WarrentyPeriod": {
+                  "style": "form"
+                },
+                "Image": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/product/{id}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Lấy sản phẩm theo mã",
+        "description": "Trả về thông tin chi tiết của sản phẩm dựa trên mã sản phẩm được cung cấp.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Xóa sản phẩm (Admin)",
+        "description": "Xóa sản phẩm khỏi cơ sở dữ liệu dựa trên mã sản phẩm được cung cấp. Chỉ dành cho Admin.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/product/search": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Tìm kiếm sản phẩm",
+        "description": "Tìm kiếm sản phẩm theo danh mục, từ khóa và hỗ trợ phân trang.",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/product/groupby-category": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Liệt kê tất cả sản phẩm theo danh mục",
+        "description": "Trả về danh sách tất cả sản phẩm được nhóm theo danh mục.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/review": {
+      "get": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Lấy tất cả đánh giá (Admin)",
+        "description": "Admin có thể lấy danh sách tất cả đánh giá trong hệ thống và hỗ trợ phân trang.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/review/product/{productId}": {
+      "get": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Lấy danh sách đánh giá của sản phẩm",
+        "description": "Trả về danh sách các đánh giá của một sản phẩm dựa trên mã sản phẩm và hỗ trợ phân trang.",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/review/create": {
+      "post": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Thêm đánh giá mới",
+        "description": "Người dùng có thể thêm đánh giá mới cho một sản phẩm.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/review/{id}": {
+      "put": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Cập nhật đánh giá",
+        "description": "Người dùng có thể cập nhật đánh giá của chính mình.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Xóa đánh giá (Admin)",
+        "description": "Admin có thể xóa bất kỳ đánh giá nào.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/update": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Cập nhật thông tin người dùng",
+        "description": "Cập nhật thông tin người dùng dựa trên ID lấy từ cookie.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/change-password": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Đổi mật khẩu",
+        "description": "Cho phép người dùng đổi mật khẩu của họ.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/all": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Lấy tất cả thông tin người dùng (Admin)",
+        "description": "Admin có thể lấy danh sách tất cả người dùng trong hệ thống và hỗ trợ phân trang.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/admin-update/{id}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Cập nhật thông tin người dùng (Admin)",
+        "description": "Admin có thể cập nhật thông tin của bất kỳ người dùng nào.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/admin-delete/{id}": {
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Xóa người dùng (Admin)",
+        "description": "Admin có thể xóa bất kỳ người dùng nào.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "CreateProductDTO": {
+      "ChangePasswordRequest": {
+        "required": [
+          "currentPassword",
+          "newPassword"
+        ],
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
+          "currentPassword": {
+            "minLength": 1,
+            "type": "string"
           },
-          "description": {
-            "type": "string",
+          "newPassword": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateOrderDTO": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItemDTO"
+            },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginRequest": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderItemDTO": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "format": "int32"
           },
           "quantity": {
             "type": "integer",
             "format": "int32"
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
-          },
-          "discountPercent": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "promotionEndDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "categoryId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "warrentyPeriod": {
-            "type": "integer",
-            "format": "int32"
           }
         },
         "additionalProperties": false
       },
-      "LoginDTO": {
+      "RegisterRequest": {
+        "required": [
+          "address",
+          "email",
+          "name",
+          "password",
+          "phone"
+        ],
         "type": "object",
         "properties": {
           "email": {
+            "minLength": 1,
             "type": "string",
-            "nullable": true
+            "format": "email"
           },
           "password": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RegisterDTO": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "phone": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "gender": {
+            "pattern": "^(Nam|Nữ)$",
             "type": "string",
             "nullable": true
           },
           "address": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ReviewDTO": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comment": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateUserRequest": {
+        "required": [
+          "address",
+          "name",
+          "phone"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "phone": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "gender": {
+            "pattern": "^(Nam|Nữ)$",
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false

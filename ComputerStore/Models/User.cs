@@ -25,6 +25,19 @@ namespace ComputerStore.Models
         public string Role { get; set; }
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
+        public object WithoutPassword()
+        {
+            return new
+            {
+                Id = this.Id,
+                Email = this.Email,
+                Name = this.Name,
+                Phone = this.Phone,
+                Gender = this.Gender,
+                Address = this.Address,
+                Role = this.Role
+            };
+        }
     }
     public class Role
     {

@@ -1,24 +1,60 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\wwwroot\\images\\0.jpg",
-      "PackagePath": "staticwebassets\\images\\0.jpg"
+      "Id": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\10cb990421e352ffaf45254184d1fad9.png",
+      "PackagePath": "staticwebassets\\images\\10cb990421e352ffaf45254184d1fad9.png"
     },
     {
-      "Id": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\wwwroot\\images\\60.jpg",
-      "PackagePath": "staticwebassets\\images\\60.jpg"
+      "Id": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\189f8f18bdb00eab9bbd4f869a3bb780.png",
+      "PackagePath": "staticwebassets\\images\\189f8f18bdb00eab9bbd4f869a3bb780.png"
     },
     {
-      "Id": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\wwwroot\\images\\61.jpg",
-      "PackagePath": "staticwebassets\\images\\61.jpg"
+      "Id": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\2a812853d7a03b38e23037e27542d41b.png",
+      "PackagePath": "staticwebassets\\images\\2a812853d7a03b38e23037e27542d41b.png"
     },
     {
-      "Id": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\wwwroot\\images\\62.jpg",
-      "PackagePath": "staticwebassets\\images\\62.jpg"
+      "Id": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\31213884d891476b41ab3e24cb6d5d80.png",
+      "PackagePath": "staticwebassets\\images\\31213884d891476b41ab3e24cb6d5d80.png"
     },
     {
-      "Id": "C:\\Users\\ASUS\\Desktop\\Web\\ComputerStore\\ComputerStore\\wwwroot\\images\\pc_01.jpg",
-      "PackagePath": "staticwebassets\\images\\pc_01.jpg"
+      "Id": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\41fa5bb8e55c4fa92b7045fa730f1553.png",
+      "PackagePath": "staticwebassets\\images\\41fa5bb8e55c4fa92b7045fa730f1553.png"
+    },
+    {
+      "Id": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\4b0c581c2b9530d266a6d2e32baf6e1f.png",
+      "PackagePath": "staticwebassets\\images\\4b0c581c2b9530d266a6d2e32baf6e1f.png"
+    },
+    {
+      "Id": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\597ca87f4201265471abfb8d7f81b5de.png",
+      "PackagePath": "staticwebassets\\images\\597ca87f4201265471abfb8d7f81b5de.png"
+    },
+    {
+      "Id": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\72dc8f9bfb288bfd2396e3012f515e82.png",
+      "PackagePath": "staticwebassets\\images\\72dc8f9bfb288bfd2396e3012f515e82.png"
+    },
+    {
+      "Id": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\b916f5d5e9ae878b68cc009478c044c5.png",
+      "PackagePath": "staticwebassets\\images\\b916f5d5e9ae878b68cc009478c044c5.png"
+    },
+    {
+      "Id": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\d8c1598b83a43615a91a953694f353f1.png",
+      "PackagePath": "staticwebassets\\images\\d8c1598b83a43615a91a953694f353f1.png"
+    },
+    {
+      "Id": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\ea968fff32987d79965177678f5a3197.png",
+      "PackagePath": "staticwebassets\\images\\ea968fff32987d79965177678f5a3197.png"
+    },
+    {
+      "Id": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\f3466b1ee294ab8d35fe98a7eef6c744.png",
+      "PackagePath": "staticwebassets\\images\\f3466b1ee294ab8d35fe98a7eef6c744.png"
+    },
+    {
+      "Id": "C:\\Users\\Admin\\Desktop\\Web\\BE\\ComputerStore\\ComputerStore\\wwwroot\\images\\fa990b27755a5e18b1f1d978d32219a8.png",
+      "PackagePath": "staticwebassets\\images\\fa990b27755a5e18b1f1d978d32219a8.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ComputerStore.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ComputerStore.Microsoft.AspNetCore.StaticWebAssets.props",

@@ -1,3 +1,4 @@
+using ComputerStore.Services;
 using Microsoft.EntityFrameworkCore;
 
 public class Program
@@ -8,6 +9,8 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        builder.Services.AddScoped<ProductService>();
+        builder.Services.AddScoped<UserService>();
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddCors(options =>
